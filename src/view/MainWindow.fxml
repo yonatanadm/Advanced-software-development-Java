@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import view.Aircraft?>
+<?import view.MapDisplayer?>
+<?import view.Path?>
+
+<BorderPane prefHeight="500.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
+   <right>
+      <VBox layoutX="15.0" prefHeight="482.0" prefWidth="371.0" BorderPane.alignment="CENTER">
+         <children>
+            <Circle fx:id="frameCirc" fill="#ffdd1f" radius="100.0" strokeType="INSIDE" translateX="110.0" translateY="110.0">
+               <stroke>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop color="#45263e" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </stroke>
+            </Circle>
+            <Circle fx:id="joyCirc" onMouseDragged="#innerDragged" onMousePressed="#innerPressed" onMouseReleased="#innerReleased" radius="33.0" stroke="#2d7563" strokeType="INSIDE" translateX="180.0" translateY="-22.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Circle>
+            <Slider fx:id="throttleSlider" blockIncrement="0.1" majorTickUnit="0.1" max="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minorTickCount="0" orientation="VERTICAL" prefHeight="162.0" prefWidth="51.0" showTickLabels="true" showTickMarks="true" translateX="50.0" translateY="-120.0" />
+            <Slider fx:id="rudderSlider" blockIncrement="0.1" majorTickUnit="0.1" max="1.0" maxHeight="-Infinity" maxWidth="-Infinity" min="-1.0" minorTickCount="0" prefHeight="21.0" prefWidth="251.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" translateX="100.0" translateY="-80.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Slider>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rudder" translateX="175.0" translateY="-60.0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Text>
+            <Text rotate="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Throttle" translateX="-20.0" translateY="-300.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="◀Aileron▶" translateX="150.0" translateY="-470.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text rotate="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="◀Elevator▶" translateX="290.0" translateY="-350.0">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <VBox prefHeight="500.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#chooseTxtfile" prefHeight="31.0" prefWidth="140.0" text="choose file" translateX="170.0" translateY="20.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Button>
+            <TextArea fx:id="myTextbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="340.0" prefWidth="239.0" translateX="140.0" translateY="-40.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="100.0" />
+               </VBox.margin>
+            </TextArea>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#connect" prefHeight="65.0" prefWidth="109.0" text="Connect">
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="50.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#calcPath" prefHeight="65.0" prefWidth="160.0" text="Calculate Path" translateX="10.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="50.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#loadFile" prefHeight="42.0" prefWidth="132.0" text="Load Data" translateX="20.0" translateY="50.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </Button>
+            <RadioButton fx:id="autoPilot" mnemonicParsing="false" onAction="#radioClick" prefHeight="35.0" prefWidth="177.0" text="Autopilot" textOverrun="CLIP" translateX="60.0" translateY="55.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="manualPilot" mnemonicParsing="false" onAction="#radioClick" prefHeight="35.0" prefWidth="177.0" text="Manual" textOverrun="CLIP" translateX="250.0" translateY="55.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </RadioButton>
+         </children>
+         <padding>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+         </padding>
+      </HBox>
+   </top>
+   <left>
+      <AnchorPane maxHeight="300.0" maxWidth="300.0" minHeight="300.0" minWidth="300.0" prefHeight="300.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <Path fx:id="path" height="300.0" width="300.0" />
+            <Aircraft fx:id="aircraft" height="300.0" width="300.0" />
+            <MapDisplayer fx:id="md" height="300.0" opacity="0.6" width="300.0" />
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>
